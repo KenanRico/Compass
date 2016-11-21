@@ -14,10 +14,34 @@
     android:layout_height="match_parent"
     tools:context="com.example.pc.compass.MapsActivity" />
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/error"/>
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/error"
+        android:text=""/>
+    <EditText
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/text_bar"
+        android:hint="Enter a saved location"
+        android:gravity="center"
+        android:id="@+id/search_bar"/>
+    <ImageButton
+        android:background="#00000000"
+        android:src="@drawable/search_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:scaleType="fitXY"
+        android:layout_toRightOf="@+id/search_bar"
+        android:layout_alignBottom="@+id/search_bar"
+        android:onClick="search_pin"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,15 +51,16 @@
 
     <ImageButton
         android:background="#00000000"
-        android:src="@drawable/set_pin"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:src="@drawable/map"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:scaleType="fitXY"
-        android:id="@+id/home"
-        android:text="Set Home"
-        android:layout_above="@+id/compass"
         android:layout_centerHorizontal="true"
-        android:onClick="pin_selection"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:id="@+id/tomap"
+        android:text="Set Home"
+        android:onClick="map"/>
 
     <ImageButton
         android:background="#00000000"
@@ -43,12 +68,12 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="fitXY"
-        android:id="@+id/compass"
+        android:id="@+id/tocompass"
         android:text="Compass"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_toLeftOf="@+id/midline"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/tomap"
         android:onClick="compass"/>
     <ImageButton
         android:background="#00000000"
@@ -58,15 +83,10 @@
         android:scaleType="fitXY"
         android:text="List"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/midline"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/tomap"
         android:onClick="list"/>
 
 
-
-
-
-
-
-    </RelativeLayout>
+</RelativeLayout>

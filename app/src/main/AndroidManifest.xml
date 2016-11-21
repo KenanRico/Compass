@@ -38,11 +38,14 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".PinSelectionPage" />
-        <activity android:name=".LocationList" />
-        <activity android:name=".EditLocationItem" />
-        <activity android:name=".ListFromHomeDest"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".LocationList"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".EditLocationItem"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".AddEntry"></activity>
     </application>
 
 </manifest>

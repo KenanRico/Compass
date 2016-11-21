@@ -22,14 +22,13 @@ import android.widget.Toast;
 import android.content.Context;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.vision.barcode.Barcode;
 
 public class LocationList extends AppCompatActivity {
 
     private Database db = new Database(this,null);
     private ArrayList<String> locations = new ArrayList<String>();
     private String action;
-    private String box_argument_location;
-    private String dialogbox_content;
     private String location_name;
     private String Toast_Message;
 
@@ -58,7 +57,7 @@ public class LocationList extends AppCompatActivity {
     Handler h3 = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            dest_text.setText(db.get_current_home());
+            home_text.setText(db.get_current_home());
         }
     };
     Handler h4 = new Handler(){
@@ -87,7 +86,6 @@ public class LocationList extends AppCompatActivity {
         addAddress = (EditText)findViewById(R.id.addAddress);
 
         action = "none";
-        dialogbox_content = "";
 
         //Bundle previous_activity = getIntent().getExtras();
         //final String previous = previous_activity.getString("previous");
@@ -108,6 +106,17 @@ public class LocationList extends AppCompatActivity {
                             edit_location_page.putExtra("loc_address",db.get_address(location_name));
                             startActivity(edit_location_page);
 
+                    }
+                }
+        );
+        location_list.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener(){
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        location_name = String.valueOf(adapterView.getItemAtPosition(i));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setMessage("Do you want to set this location as home or destination?").setPositiveButton("Home", dialogBox_select).setNegativeButton("Destination", dialogBox_select).setNeutralButton("Cancel",dialogBox_select).show();
+                        return true;
                     }
                 }
         );
@@ -137,6 +146,20 @@ public class LocationList extends AppCompatActivity {
                         //Toast.makeText(LocationList.this,Toast_Message,Toast.LENGTH_SHORT).show();
                         h5.sendEmptyMessage(0);
                     }
+                    else if(action.equals("home")){
+                        db.update_list_status(db.get_current_home(),"home","remove");
+                        db.update_list_status(location_name,"home","add");
+                        Toast_Message = "Successfully set " + location_name + " as home!";
+                        h3.sendEmptyMessage(0);
+                        h5.sendEmptyMessage(0);
+                    }
+                    else if(action.equals("dest")){
+                        db.update_list_status(db.get_current_dest(),"dest","remove");
+                        db.update_list_status(location_name,"dest","add");
+                        Toast_Message = "Successfully set " + location_name + " as destination!";
+                        h4.sendEmptyMessage(0);
+                        h5.sendEmptyMessage(0);
+                    }
                     action = "none";
                     location_name = "";
                 }
@@ -151,7 +174,7 @@ public class LocationList extends AppCompatActivity {
         public void onClick(DialogInterface dialogInterface, int i) {
             switch(i){
                 case DialogInterface.BUTTON_POSITIVE: {
-                    action = dialogbox_content;
+                    action = "reset";
                     break;
                 }
                 case DialogInterface.BUTTON_NEGATIVE:{
@@ -160,15 +183,37 @@ public class LocationList extends AppCompatActivity {
             }
         }
     };
+    public DialogInterface.OnClickListener dialogBox_select = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            switch(i){
+                case DialogInterface.BUTTON_POSITIVE: {
+                    action = "home";
+                    break;
+                }
+                case DialogInterface.BUTTON_NEGATIVE:{
+                    action = "dest";
+                    break;
+                }
+                case DialogInterface.BUTTON_NEUTRAL:{
+                    break;
+                }
+            }
+        }
+    };
 
     public void reset(View v){
-        dialogbox_content = "reset";
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setMessage("Are you sure you want to reset all pins on the map?").setPositiveButton("Yes",dialogBox).setNegativeButton("No",dialogBox).show();
     }
     public void map(View v){
         stop_thread = true;
         Intent i = new Intent(this,MapsActivity.class);
+        startActivity(i);
+    }
+    public void compass(View v){
+        stop_thread = true;
+        Intent i = new Intent(this,MainActivity.class);
         startActivity(i);
     }
     public void add_location(View v){

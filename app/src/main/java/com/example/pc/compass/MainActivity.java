@@ -16,7 +16,6 @@ import android.content.Intent;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     public ImageView compass;
-    public TextView direction;
     public float direction_degree = 0f;
     public SensorManager sensorManager;
 
@@ -27,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
 
         compass = (ImageView)findViewById(R.id.compass);
-        direction = (TextView)findViewById(R.id.direction);
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 
         //db
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         float degree = Math.round(event.values[0]);
         String dir = Float.toString(degree)+" degrees";
-        direction.setText(dir);
         RotateAnimation ra = new RotateAnimation(direction_degree,-degree,Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
         ra.setDuration(100);
         ra.setFillAfter(true);
@@ -62,8 +59,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //not implemented
     }
 
-    public void toMap(View v){
+    public void map(View v){
         Intent i = new Intent(this,MapsActivity.class);
+        startActivity(i);
+    }
+    public void compass(View v){
+        //do nothing
+    }
+    public void list(View v){
+        Intent i = new Intent(this,LocationList.class);
         startActivity(i);
     }
 }
